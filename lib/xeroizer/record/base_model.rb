@@ -14,6 +14,7 @@ module Xeroizer
       end
       ALLOWED_PERMISSIONS = [:read, :write, :update]
       class_inheritable_attributes :permissions
+      class_inheritable_attributes :custom_xero_url
 
       class_inheritable_attributes :xml_root_name
       class_inheritable_attributes :optional_xml_root_name
@@ -48,6 +49,12 @@ module Xeroizer
             raise InvalidPermissionError.new("Permission #{permission} is invalid.") unless ALLOWED_PERMISSIONS.include?(permission)
             self.permissions[permission] = true
           end
+        end
+
+        # Set the Xero URI to something custom, this is handy for namespaced
+        # resources such as files
+        def set_xero_url(url_string)
+          self.custom_xero_url = url_string
         end
 
         # Method to allow override of the default XML node name.

@@ -5,7 +5,9 @@ require 'xeroizer/report/aged_receivables_by_contact'
 module Xeroizer
   module Report
     class Factory
-      
+      include ClassLevelInheritableAttributes
+      class_inheritable_attributes :custom_xero_url
+
       include ApplicationHttpProxy
 
       attr_reader :application
