@@ -1,13 +1,11 @@
 module Xeroizer
   module Record
     module Files
-      class FileModel < BaseModel
+      class FileModel < FileBaseModel
         set_permissions :read, :write
-        set_xero_url 'https://api.xero.com/files.xro/1.0/'
       end
 
-      class File < Base
-        string :name
+      class File < FileBase
         string :mime_type
         integer :size
         datetime_utc :created_date_utc

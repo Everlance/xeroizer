@@ -3,7 +3,6 @@ module Xeroizer
     module Files
       class FolderModel < BaseModel
         set_permissions :read, :write
-        set_xero_url 'https://api.xero.com/files.xro/1.0/'
       end
 
       class Folder < Base
