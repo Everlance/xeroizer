@@ -23,8 +23,6 @@ module Xeroizer
     record :Currency
     record :Employee
     record :ExpenseClaim
-    record :File
-    record :Folder
     record :Invoice
     record :InvoiceReminder
     record :OnlineInvoice
@@ -46,6 +44,9 @@ module Xeroizer
     record :BankTransaction
     record :BankTransfer
     record :User
+
+    files_record :File
+    files_record :Folder
 
     report :AgedPayablesByContact
     report :AgedReceivablesByContact
