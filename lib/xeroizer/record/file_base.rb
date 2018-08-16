@@ -32,10 +32,6 @@ module Xeroizer
           record
         end
 
-        def create_method
-          :http_post
-        end
-
       end
 
       class FileBase < Xeroizer::Record::Base
@@ -55,10 +51,7 @@ module Xeroizer
         end
 
         def create
-          request = "--#{FilesApplication::CONTENT_BOUNDARY}\nContent-Disposition: form-data; name=Xero; filename=""#{self.name}.pdf""\nContent-Type: application/pdf\n\n#{self.body}"
-          log "[CREATE SENT] (#{__FILE__}:#{__LINE__}) #{request}"
-          response = parent.send(parent.create_method, request)
-          log "[CREATE RECEIVED] (#{__FILE__}:#{__LINE__}) #{response}"
+          response = parent.post_file(self.name, self.body)
           parse_save_response(response)
         end
       end
