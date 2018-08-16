@@ -1,5 +1,5 @@
 module Xeroizer
-  class FilesApplication
+  class FilesApplication < GenericApplication
     
     attr_reader :application
 
@@ -23,8 +23,9 @@ module Xeroizer
     record :File
     record :Folder
     
-    def initialize(application)
-      @application = application(xero_url: FILES_URL)
+    def initialize(consumer_key, consumer_secret, options = {})
+      options.merge!(xero_url: FILES_URL)
+      super
     end
 
   end
