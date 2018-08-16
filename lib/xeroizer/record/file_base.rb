@@ -54,8 +54,6 @@ module Xeroizer
           Xeroizer::Record::Files.const_get("#{model_name}Model".to_sym).new(parent.try(:application), model_name.to_s)
         end
 
-        protected
-
         def create
           request = "--#{FilesApplication::CONTENT_BOUNDARY}\nContent-Disposition: form-data; name=Xero; filename=""#{self.name}.pdf""\nContent-Type: application/pdf\n\n#{self.body}"
           log "[CREATE SENT] (#{__FILE__}:#{__LINE__}) #{request}"
