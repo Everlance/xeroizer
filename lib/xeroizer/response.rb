@@ -29,9 +29,9 @@ module Xeroizer
           doc['items'].each do |file|
             yield(response, file, 'File')
           end
-        else
+        elsif doc.root.present?
           # check for responses we don't understand
-          raise Xeroizer::UnparseableResponse.new(doc.root.try(:name) unless doc.root.name == 'Response'
+          raise Xeroizer::UnparseableResponse.new(doc.root.try(:name)) unless doc.root.name == 'Response'
 
           doc.root.elements.each do | element |
 

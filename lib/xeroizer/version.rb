@@ -1,3 +1,3 @@
 module Xeroizer
-  VERSION = "2.18.20".freeze
+  VERSION = "2.18.21".freeze
 end
