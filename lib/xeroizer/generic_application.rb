@@ -83,6 +83,11 @@ module Xeroizer
         xero_client.xero_url = options[:xero_url] || "https://api.xero.com/payroll.xro/1.0"
         @payroll ||= PayrollApplication.new(xero_client)
       end
+
+      def files(options = {})
+        xero_client = self.clone
+        xero_client.xero_url = options[:xero_url] || "https://api.xero.com/files.xro/1.0"
+      end
           
   end
 end
