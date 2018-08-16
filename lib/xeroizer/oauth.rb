@@ -82,10 +82,6 @@ module Xeroizer
       create_consumer
     end
 
-    def post_file(url, name, body, headers)
-
-    end
-
     # RequestToken for PUBLIC/PARTNER authorisation
     # (used to redirect to Xero for authentication).
     #

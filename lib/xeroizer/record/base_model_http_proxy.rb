@@ -10,7 +10,8 @@ module Xeroizer
       end
 
       module InstanceMethods
-        def post_file(path, name, body, headers)
+        def post_file(name, body)
+          uri = URI.parse(self.url)
           http = Net::HTTP.new(uri.host, uri.port)
           http.use_ssl = true
           if File.directory?('/etc/ssl/certs')
@@ -20,7 +21,7 @@ module Xeroizer
           else
             http.verify_mode = OpenSSL::SSL::VERIFY_NONE
           end
-          uri = URI.parse(self.url)
+
 
           request = Net::HTTP::Post::Multipart.new(uri.path, "file" => UploadIO.new(StringIO.new(body), 'application/pdf', "#{name}.pdf"))
           http.start { |http| http.request(request) }
