@@ -42,6 +42,18 @@ module Xeroizer
         string :name
         string :body
 
+        public
+
+        def initialize(parent)
+          @parent = parent
+          @model = new_model_class(self.class.name.demodulize)
+          @attributes = {}
+        end
+
+        def new_model_class(model_name)
+          Xeroizer::Record::Files.const_get("#{model_name}Model".to_sym).new(parent.try(:application), model_name.to_s)
+        end
+
         protected
 
         def create
