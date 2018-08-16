@@ -44,7 +44,7 @@ module Xeroizer
 
     # Mixin real OAuth methods for consumer.
     extend Forwardable
-    def_delegators :access_token, :get, :post, :put, :delete
+    def_delegators :access_token, :get, :put, :delete
 
     # @attr_reader [String] ctoken consumer key/token from application developer (found at http://api.xero.com for your application).
     # @attr_reader [String] csecret consumer secret from application developer (found at http://api.xero.com for your application).
@@ -80,6 +80,14 @@ module Xeroizer
     # @return [OAuth::Consumer] consumer object for GET/POST/PUT methods.
     def consumer
       create_consumer
+    end
+
+    def post(path, body, headers)
+      if body.to_s =~ /^--#{FilesApplication::CONTENT_BOUNDARY}.*/
+        headers['Content-Type'] = "multipart/form-data;boundary=#{FilesApplication::CONTENT_BOUNDARY}"
+        headers['Content-Length'] = body.length
+      end
+      super
     end
 
     # RequestToken for PUBLIC/PARTNER authorisation

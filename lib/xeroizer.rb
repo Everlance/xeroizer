@@ -6,6 +6,7 @@ require "active_support/core_ext/array"
 require "active_support/core_ext/big_decimal/conversions"
 require 'oauth'
 require 'oauth/signature/rsa/sha1'
+require 'net/http/post/multipart'
 require 'nokogiri'
 require 'builder'
 require 'time'

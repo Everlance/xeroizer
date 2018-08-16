@@ -1,6 +1,8 @@
 module Xeroizer
   class FilesApplication
 
+    CONTENT_BOUNDARY = '--xero-file-disposition'
+
     attr_reader :application
 
     # Factory for new Payroll BaseModel instances with the class name `record_type`.
