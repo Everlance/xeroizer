@@ -6,7 +6,8 @@ module Xeroizer
     include Http
     extend Record::ApplicationHelper
 
-    attr_reader :client, :xero_url, :logger, :rate_limit_sleep, :rate_limit_max_attempts,
+    attr_accessor :xero_url
+    attr_reader :client, :logger, :rate_limit_sleep, :rate_limit_max_attempts,
                 :default_headers, :unitdp, :before_request, :after_request, :around_request, :nonce_used_max_attempts
 
     extend Forwardable
@@ -87,6 +88,7 @@ module Xeroizer
       def files(options = {})
         xero_client = self.clone
         xero_client.xero_url = options[:xero_url] || "https://api.xero.com/files.xro/1.0"
+        @files ||= FilesApplication.new(xero_client)
       end
           
   end
