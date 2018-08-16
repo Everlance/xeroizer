@@ -1,5 +1,5 @@
 module Xeroizer
-  class PayrollApplication
+  class FilesApplication
     
     attr_reader :application
 
