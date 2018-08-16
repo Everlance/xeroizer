@@ -1,7 +1,10 @@
 module Xeroizer
   class FilesApplication < GenericApplication
     
-    attr_reader :application
+    attr_reader :client, :application
+
+    extend Forwardable
+    def_delegators :client, :request_token, :authorize_from_request, :authorize_from_access
 
     FILES_URL = 'https://api.xero.com/files.xro/1.0/'
 
