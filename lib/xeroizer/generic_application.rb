@@ -23,6 +23,8 @@ module Xeroizer
     record :Currency
     record :Employee
     record :ExpenseClaim
+    record :File
+    record :Folder
     record :Invoice
     record :InvoiceReminder
     record :OnlineInvoice
