@@ -6,7 +6,7 @@ module Xeroizer
         set_xero_url 'https://api.xero.com/files.xro/1.0/'
       end
 
-      class FolderModel < Base
+      class Folder < Base
         string :name
         integer :file_count
         string :email
