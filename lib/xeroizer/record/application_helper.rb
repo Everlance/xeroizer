@@ -8,7 +8,7 @@ module Xeroizer
       # @param [Symbol] record_type Symbol of the record type (e.g. :Invoice)
       # @return [BaseModel] instance of BaseModel subclass matching `record_type`
       def record(record_type, namespace = nil)
-        record_namespace = "Xeroizer::Record #{namespace.present? ? "::#{namespace}" : nil}".constantize
+        record_namespace = "Xeroizer::Record#{namespace.present? ? "::#{namespace}" : nil}".constantize
         define_method record_type do
           var_name = "@#{record_type}_cache".to_sym
           unless instance_variable_defined?(var_name)
