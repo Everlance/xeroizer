@@ -87,7 +87,7 @@ module Xeroizer
         headers['Content-Type'] = "multipart/form-data;boundary=#{FilesApplication::CONTENT_BOUNDARY}"
         headers['Content-Length'] = body.length
       end
-      super
+      self.access_token.post(path, body, headers)
     end
 
     # RequestToken for PUBLIC/PARTNER authorisation
