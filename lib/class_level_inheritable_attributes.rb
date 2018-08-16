@@ -16,6 +16,7 @@ module ClassLevelInheritableAttributes
     end
     
     def inherited(subclass)
+      return if @xeroizer_inheritable_attributes.nil?
       original_verbose, $VERBOSE = $VERBOSE, nil
       @xeroizer_inheritable_attributes.each do |inheritable_attribute|
         instance_var = "@#{inheritable_attribute}"
