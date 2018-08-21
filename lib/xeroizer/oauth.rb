@@ -93,7 +93,12 @@ module Xeroizer
     def multipart_post(uri, data, headers)
       mime_type = data.delete('Content-Type') { headers['Content-Type'] || 'application/octet-stream' }
       file_name = data.delete('File-Name') { 'oauth-uploaded-file' }
-      file_io = UploadIO.new(StringIO.new(data.delete('body')), mime_type, file_name)
+      if data['file'].is_a?(String)
+        ios = StringIO(data.delete('file'))
+      else
+        ios = data['file']
+      end
+      file_io = UploadIO.new(ios, mime_type, file_name)
       request = Net::HTTP::Post::Multipart.new(uri.path, data.merge( 'file' => file_io ), headers)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
