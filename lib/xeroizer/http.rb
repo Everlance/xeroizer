@@ -42,8 +42,6 @@ module Xeroizer
     end
 
     def http_multipart(client, url, params)
-      params['Content-Type'] ||= 'application/octet-stream'
-      params['File-Name'] ||= 'oauth-uploaded-file'
       http_request(client, :multipart, url, params)
     end
 
@@ -66,9 +64,7 @@ module Xeroizer
 
       # include the unitdp query string parameter
       params.merge!(unitdp_param(url))
-      if method == :multipart
-        headers['Content-Type'] = "multipart/form-data;boundary=RubyMultipartPost"
-      elsif method != :get
+      if method != :get && method != :multipart
         headers['Content-Type'] ||= "application/x-www-form-urlencoded"
       end
 

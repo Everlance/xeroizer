@@ -91,8 +91,8 @@ module Xeroizer
     end
 
     def multipart_post(uri, data, headers)
-      mime_type = data.delete('Content-Type') { headers['Content-Type'] || 'application/octet-stream' }
-      file_name = data.delete('File-Name') { 'oauth-uploaded-file' }
+      mime_type = data.delete('mime_type') { headers['Content-Type'] || 'application/octet-stream' }
+      file_name = data.delete('name') { 'oauth-uploaded-file' }
       if data['file'].is_a?(String)
         ios = StringIO(data.delete('file'))
       else
