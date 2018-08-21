@@ -66,11 +66,7 @@ module Xeroizer
 
       # include the unitdp query string parameter
       params.merge!(unitdp_param(url))
-
-      if method == :multipart
-        headers['Content-Type'] = body['Content-Type']
-        headers['File-Name'] = body['File-Name']
-      elsif method != :get && method != :multipart
+      if method != :get && method != :multipart
         headers['Content-Type'] ||= "application/x-www-form-urlencoded"
       end
 
