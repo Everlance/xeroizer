@@ -24,8 +24,8 @@ module Xeroizer
         application.http_post(application.client, url, xml, extra_params)
       end
 
-      def http_multipart(data, params = {})
-        application.http_multipart(application.client, url, data, params)
+      def http_multipart(data)
+        application.http_multipart(application.client, url, data)
       end
       
     end
