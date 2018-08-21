@@ -34,7 +34,7 @@ module Xeroizer
           {
               'file' => StringIO.new(self.body),
               'name' => self.name,
-              'mime-type' => self.mime_type
+              'mime_type' => self.mime_type
           }
         end
       end
