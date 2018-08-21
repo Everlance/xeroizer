@@ -99,7 +99,7 @@ module Xeroizer
         ios = data['file']
       end
       file_io = UploadIO.new(ios, mime_type, file_name)
-      request = Net::HTTP::Post::Multipart.new(uri.path, data.merge( 'file' => file_io ))
+      request = Net::HTTP::Post::Multipart.new(uri.path, data.merge( 'file' => file_io ), headers)
       access_token.sign! request
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
