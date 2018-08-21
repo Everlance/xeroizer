@@ -66,9 +66,8 @@ module Xeroizer
 
       # include the unitdp query string parameter
       params.merge!(unitdp_param(url))
-      # DEBUGGING
       if method == :multipart
-        headers['Content-Type'] = 'text/plain'
+        headers['Content-Type'] = "multipart/form-data;boundary=RubyMultipartPost"
       elsif method != :get
         headers['Content-Type'] ||= "application/x-www-form-urlencoded"
       end
