@@ -100,6 +100,7 @@ module Xeroizer
       end
       file_io = UploadIO.new(ios, mime_type, file_name)
       request = Net::HTTP::Post::Multipart.new(uri.path, data.merge( 'file' => file_io ), headers)
+      access_token.sign!(request)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       root_ca = '/etc/ssl/certs'
@@ -110,7 +111,9 @@ module Xeroizer
       else
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
-      http.start { |http| http.request(request) }
+      http.start do |http|
+        http.request(request)
+      end
     end
 
     # Create an AccessToken from a PUBLIC/PARTNER authorisation.
@@ -162,10 +165,6 @@ module Xeroizer
         end
         consumer
       end
-
-    def add_multipart_data(request, params)
-
-    end
 
       # Update instance variables with those from the AccessToken.
       def update_attributes_from_token(access_token)
