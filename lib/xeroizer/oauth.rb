@@ -103,14 +103,7 @@ module Xeroizer
       consumer.sign!(request, access_token)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
-      root_ca = '/etc/ssl/certs'
-      if File.directory?(root_ca)
-        http.ca_path = root_ca
-        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        http.verify_depth = 5
-      else
-        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      end
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       http.start do |http|
         http.request(request)
       end
