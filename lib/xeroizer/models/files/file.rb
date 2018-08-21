@@ -18,7 +18,7 @@ module Xeroizer
         belongs_to :folder
 
         protected
-        def create
+        def save!
           request = multipart_params
           response = parent.send(parent.create_method, request)
           parse_save_response(response)
