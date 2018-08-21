@@ -90,6 +90,24 @@ module Xeroizer
       consumer.get_request_token(params, {}, @consumer_options[:default_headers])
     end
 
+    def multipart_post(uri, data, headers)
+      mime_type = data.delete('Content-Type') { headers['Content-Type'] || 'application/octet-stream' }
+      file_name = data.delete('File-Name') { 'oauth-uploaded-file' }
+      file_io = UploadIO.new(StringIO.new(data.delete('body')), mime_type, file_name)
+      request = Net::HTTP::Post::Multipart.new(uri.path, data.merge( 'file' => file_io ), headers)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      root_ca = '/etc/ssl/certs'
+      if File.directory?(root_ca)
+        http.ca_path = root_ca
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        http.verify_depth = 5
+      else
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      end
+      http.start { |http| http.request(request) }
+    end
+
     # Create an AccessToken from a PUBLIC/PARTNER authorisation.
     def authorize_from_request(rtoken, rsecret, params = {})
       request_token = ::OAuth::RequestToken.new(consumer, rtoken, rsecret)
@@ -139,6 +157,10 @@ module Xeroizer
         end
         consumer
       end
+
+    def add_multipart_data(request, params)
+
+    end
 
       # Update instance variables with those from the AccessToken.
       def update_attributes_from_token(access_token)

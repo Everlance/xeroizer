@@ -22,37 +22,15 @@ module Xeroizer
           super(response_xml, {:base_module => Xeroizer::Record::Files}.merge(options))
         end
 
-        def create(attributes={})
-          file_name = attributes.fetch(:name) { 'everlance-upload' }
-          body = attributes.fetch(:body)
-          record = model_class.new(self)
-          record.name = file_name
-          record.body = body
-          record.create
-          record
-        end
-
       end
 
       class FileBase < Xeroizer::Record::Base
         string :name
-        string :body
 
         public
 
-        def initialize(parent)
-          @parent = parent
-          @model = new_model_class(self.class.name.demodulize)
-          @attributes = {}
-        end
-
         def new_model_class(model_name)
           Xeroizer::Record::Files.const_get("#{model_name}Model".to_sym).new(parent.try(:application), model_name.to_s)
-        end
-
-        def create
-          response = parent.post_file(self.name, self.body)
-          parse_save_response(response)
         end
       end
     end

@@ -27,6 +27,7 @@ module Xeroizer
         doc = Nokogiri::XML(raw_response) { | cfg | cfg.noblanks }
         if doc['items']
           doc['items'].each do |file|
+            self.response_items << file
             yield(response, file, 'File')
           end
         elsif doc.root.present?

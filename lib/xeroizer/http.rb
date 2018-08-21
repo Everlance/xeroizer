@@ -41,6 +41,12 @@ module Xeroizer
       http_request(client, :post, url, body, extra_params)
     end
 
+    def http_multipart(client, url, params)
+      params['Content-Type'] ||= 'application/octet-stream'
+      params['File-Name'] ||= 'oauth-uploaded-file'
+      http_request(client, :multipart, url, params)
+    end
+
     # Shortcut method for #http_request with `method` = :put.
     #
     # @param [OAuth] client OAuth client
@@ -61,7 +67,10 @@ module Xeroizer
       # include the unitdp query string parameter
       params.merge!(unitdp_param(url))
 
-      if method != :get
+      if method == :multpart
+        headers['Content-Type'] = body['Content-Type']
+        headers['File-Name'] = body['File-Name']
+      elsif method != :get && method != :multipart
         headers['Content-Type'] ||= "application/x-www-form-urlencoded"
       end
 
@@ -100,9 +109,10 @@ module Xeroizer
 
         response = with_around_request(request_info) do
           case method
-            when :get   then    client.get(uri.request_uri, headers)
-            when :post  then    client.post(uri.request_uri, raw_body, headers)
-            when :put   then    client.put(uri.request_uri, raw_body, headers)
+            when :get       then    client.get(uri.request_uri, headers)
+            when :post      then    client.post(uri.request_uri, raw_body, headers)
+            when :multipart then    client.multipart_post(uri, body, headers)
+            when :put       then    client.put(uri.request_uri, raw_body, headers)
           end
         end
 

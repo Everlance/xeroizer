@@ -23,6 +23,10 @@ module Xeroizer
       def http_post(xml, extra_params = {})
         application.http_post(application.client, url, xml, extra_params)
       end
+
+      def http_multipart(data, params = {})
+
+      end
       
     end
     
