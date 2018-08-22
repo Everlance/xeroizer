@@ -41,6 +41,14 @@ module Xeroizer
       http_request(client, :post, url, body, extra_params)
     end
 
+    # Shortcut method for #http_request with `method` = :multipart
+    #
+    # @param [OAuth] client OAuth client
+    # @param [String] url URL of request
+    # @param [Hash] params request parameters
+    # @option data [String] :mime_type The mime_type of the data being posted
+    # @option data [String] :name The filename
+    # @option data [String|StringIO|File] :file The file or file body
     def http_multipart(client, url, params)
       http_request(client, :multipart, url, params)
     end

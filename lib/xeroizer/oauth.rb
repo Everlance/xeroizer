@@ -90,7 +90,15 @@ module Xeroizer
       consumer.get_request_token(params, {}, @consumer_options[:default_headers])
     end
 
-    def multipart_post(uri, data, headers)
+    # MultipartPost to make multipart form posts to Xero API
+    #
+    # @param [URI] uri The constructed uri for the Xero API endpoint.
+    # @param [Hash] data The data object including mime_type and name
+    # @param [Hash] headers optional request headers
+    # @option data [String] :mime_type The mime_type of the data being posted
+    # @option data [String] :name The filename
+    # @option data [String|StringIO|File] :file The file or file body
+    def multipart_post(uri, data, headers = {})
       mime_type = data.delete('mime_type') { headers['Content-Type'] || 'application/octet-stream' }
       file_name = data.delete('name') { 'oauth-uploaded-file.txt' }
       if data['file'].is_a?(String)
@@ -98,15 +106,8 @@ module Xeroizer
       else
         ios = data.delete('file')
       end
-      file_io = UploadIO.new(ios, mime_type, file_name)
-      request = Net::HTTP::Post::Multipart.new(uri.path, data.merge( file_name => file_io ), headers)
-      access_token.sign! request
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      http.start do |http|
-        http.request(request)
-      end
+      upload_io = UploadIO.new(ios, mime_type, file_name)
+      multipart_request(uri, upload_io, headers)
     end
 
     # Create an AccessToken from a PUBLIC/PARTNER authorisation.
@@ -165,6 +166,16 @@ module Xeroizer
         @authorization_expires_at = Time.now + access_token.params[:oauth_authorization_expires_in].to_i
         @session_handle = access_token.params[:oauth_session_handle]
         @atoken, @asecret = access_token.token, access_token.secret
+      end
+
+      # Make a multipart form request using an IO object.
+      def multipart_request(uri, io, headers)
+        request = Net::HTTP::Post::Multipart.new(uri.path, data.merge( file_name => file_io ), headers)
+        access_token.sign! request
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        http.request(request)
       end
   end
 end
