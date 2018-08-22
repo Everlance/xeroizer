@@ -107,7 +107,7 @@ module Xeroizer
         ios = data.delete('file')
       end
       upload_io = UploadIO.new(ios, mime_type, file_name)
-      multipart_request(uri, upload_io, headers)
+      multipart_request(uri, data.merge( file_name => upload_io ), headers)
     end
 
     # Create an AccessToken from a PUBLIC/PARTNER authorisation.
@@ -169,8 +169,8 @@ module Xeroizer
       end
 
       # Make a multipart form request using an IO object.
-      def multipart_request(uri, io, headers)
-        request = Net::HTTP::Post::Multipart.new(uri.path, data.merge( file_name => file_io ), headers)
+      def multipart_request(uri, params, headers)
+        request = Net::HTTP::Post::Multipart.new(uri.path, params, headers)
         access_token.sign! request
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true
