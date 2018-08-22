@@ -97,7 +97,7 @@ module Xeroizer
       if data['file'].is_a?(String)
         ios = StringIO(data.delete('file'))
       else
-        ios = data['file']
+        ios = data.delete('file')
       end
       file_io = UploadIO.new(ios, mime_type, file_name)
       request = Net::HTTP::Post::Multipart.new(uri.path, data.merge( file_name => file_io ), headers)
