@@ -20,6 +20,5 @@ module Xeroizer
         super(consumer_key, consumer_secret, options)
         @client.authorize_from_access(consumer_key, consumer_secret)
       end
-
   end
 end

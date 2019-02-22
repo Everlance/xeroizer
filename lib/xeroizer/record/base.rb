@@ -156,6 +156,7 @@ module Xeroizer
 
         # Attempt to create a new record.
         def create
+          binding.pry
           request = to_xml
           log "[CREATE SENT] (#{__FILE__}:#{__LINE__}) #{request}"
 
