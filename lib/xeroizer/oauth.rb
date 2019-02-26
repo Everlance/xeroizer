@@ -107,6 +107,7 @@ module Xeroizer
         ios = data.delete('file')
       end
       upload_io = UploadIO.new(ios, mime_type, file_name)
+      binding.pry
       multipart_request(uri, data.merge( file_name => upload_io ), headers)
     end
 
