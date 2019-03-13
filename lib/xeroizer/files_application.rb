@@ -1,4 +1,4 @@
-module Xeroizer
+module Xeroize
   class FilesApplication
 
     CONTENT_BOUNDARY = '--xero-file-disposition'

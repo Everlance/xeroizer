@@ -1,11 +1,11 @@
 module Xeroizer
   module Record
     module Files
-      class FolderModel < BaseModel
+      class FolderModel < FileBaseModel
         set_permissions :read, :write
       end
 
-      class Folder < Base
+      class Folder < FileBase
         string :name
         integer :file_count
         string :email
