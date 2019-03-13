@@ -25,6 +25,8 @@ module Xeroizer
       end
 
       class FileBase < Xeroizer::Record::Base
+        class_inheritable_attributes :fields, :possible_primary_keys, :primary_key_name, :summary_only, :validators
+
         string :name
 
         public
