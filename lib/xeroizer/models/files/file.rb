@@ -10,6 +10,7 @@ module Xeroizer
       end
 
       class File < FileBase
+        string :name
         string :mime_type
         string :body
         datetime_utc :created_date_utc

@@ -25,18 +25,6 @@ module Xeroizer
         end
 
       end
-
-      class FileBase < Xeroizer::Record::Base
-        class_inheritable_attributes :fields, :possible_primary_keys, :primary_key_name, :summary_only, :validators
-
-        string :name
-
-        public
-
-        def new_model_class(model_name)
-          Xeroizer::Record::Files.const_get("#{model_name}Model".to_sym).new(parent.try(:application), model_name.to_s)
-        end
-      end
     end
   end
 end
