@@ -12,6 +12,8 @@ module Xeroizer
 
         set_permissions :read, :write
 
+        include BaseModelHttpProxy
+
         public
 
         def model_class
