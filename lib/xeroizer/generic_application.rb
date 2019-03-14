@@ -46,8 +46,8 @@ module Xeroizer
     record :BankTransfer
     record :User
 
-    files_record :File
-    files_record :Folder
+    record :File, "Files"
+    record :Folder, "Files"
 
     report :AgedPayablesByContact
     report :AgedReceivablesByContact

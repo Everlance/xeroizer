@@ -92,6 +92,8 @@ module Xeroizer
         end
       end
 
+      raw_body = params.delete(:raw_body) ? body : {:xml => body}
+
       if params.any?
         url += "?" + params.map {|key, value| "#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s)}"}.join("&")
       end
@@ -107,8 +109,6 @@ module Xeroizer
         attempts += 1
         logger.info("XeroGateway Request: #{method.to_s.upcase} #{uri.request_uri}") if self.logger
 
-        raw_body = params.delete(:raw_body) ? body : {:xml => body}
-
         response = with_around_request(request_info) do
           case method
             when :get       then    client.get(uri.request_uri, headers)
@@ -122,7 +122,7 @@ module Xeroizer
         after_request.call(request_info, response) if after_request
 
         case response.code.to_i
-          when 200
+          when 200, 201
             response.plain_body
           when 400
             handle_error!(response, body)
