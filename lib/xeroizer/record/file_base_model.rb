@@ -27,7 +27,6 @@ module Xeroizer
           response = JSON.parse(response)
           if response.is_a?(Array)
             response.map do |item|
-              binding.pry
               model_class.build(item, self)
             end
           else

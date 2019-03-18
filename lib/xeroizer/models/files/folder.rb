@@ -10,14 +10,14 @@ module Xeroizer
       end
 
       class Folder < FileBase
-        guid :folder_id
+        guid :id, api_name: 'Id'
         string :name
         integer :file_count
         string :email
         boolean :is_inbox
         has_many :files
 
-        set_primary_key :folder_id
+        set_primary_key :id
 
         protected
         def save!
