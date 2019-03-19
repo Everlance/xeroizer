@@ -18,7 +18,7 @@ module Xeroizer
     attr_accessor :id, :status, :errors, :provider, :date_time, :response_items, :request_params, :request_xml, :response_xml
     
     class << self
-      
+
       # Parse the response retreived during any request.
       def parse(raw_response, request = {}, options = {}, &block)
         response = Xeroizer::Response.new

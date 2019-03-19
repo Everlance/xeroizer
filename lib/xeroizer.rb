@@ -23,6 +23,7 @@ require 'xeroizer/http'
 
 require 'xeroizer/record/base_model'
 require 'xeroizer/record/payroll_base_model'
+require 'xeroizer/record/file_base_model'
 require 'xeroizer/record/base'
 require 'xeroizer/record/payroll_base'
 require 'xeroizer/record/file_base'

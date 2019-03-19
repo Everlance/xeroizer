@@ -10,17 +10,20 @@ module Xeroizer
       end
 
       class File < FileBase
+        guid :file_id
+        string :name
         string :mime_type
         string :body
         datetime_utc :created_date_utc
         datetime_utc :updated_date_utc
 
+        set_primary_key :file_id
+
         belongs_to :folder
 
         protected
         def save!
-          request = multipart_params
-          response = parent.send(parent.create_method, request)
+          response = parent.send(parent.create_method, multipart_params)
           parse_save_response(response)
         end
 
@@ -34,7 +37,8 @@ module Xeroizer
           {
               'file' => StringIO.new(self.body),
               'name' => self.name,
-              'mime_type' => self.mime_type
+              'mime_type' => self.mime_type,
+              'folder_id' => self.folder.id
           }
         end
       end

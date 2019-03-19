@@ -17,10 +17,6 @@ module Xeroizer
           instance_variable_get(var_name)
         end  
       end
-
-      def files_record(record_type)
-        record record_type, "Files"
-      end
       
       def report(report_type)
         define_method report_type do

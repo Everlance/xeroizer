@@ -1,31 +1,31 @@
 module Xeroizer
   module Record
     module Files
-
-      class FileBaseModel < Xeroizer::Record::BaseModel
-
-        class_inheritable_attributes :api_controller_name
-        class_inheritable_attributes :permissions
-        class_inheritable_attributes :xml_root_name
-        class_inheritable_attributes :optional_xml_root_name
-        class_inheritable_attributes :xml_node_name
-
-        set_permissions :read, :write
-
-        public
-
-        def model_class
-          @model_class ||= Xeroizer::Record::Files.const_get(model_name.to_sym)
-        end
-
-        def parse_response(response_xml, options = {})
-          super(response_xml, {:base_module => Xeroizer::Record::Files}.merge(options))
-        end
-
-      end
-
       class FileBase < Xeroizer::Record::Base
-        string :name
+        class_inheritable_attributes :fields, :possible_primary_keys, :primary_key_name, :summary_only, :validators
+
+        class << self
+
+          def has_many(field_name, options = {})
+            super(field_name, {:base_module => Xeroizer::Record::Files}.merge(options))
+          end
+
+          def belongs_to(field_name, options = {})
+            super(field_name, {:base_module => Xeroizer::Record::Files}.merge(options))
+          end
+
+          # Build a record with attributes set to the value of attributes.
+          def build(attributes, parent)
+            record = new(parent)
+            attributes.each do | key, value |
+              field_key = record.class.fields.find { |_, params| params[:api_name].to_s == key.to_s }
+              attr = field_key.nil? ? key : field_key.last[:internal_name]
+              record.send("#{attr}=", value)
+            end
+            record
+          end
+
+        end
 
         public
 
