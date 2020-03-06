@@ -13,6 +13,7 @@ module Xeroizer
         guid :id, api_name: 'Id'
         string :name
         integer :file_count
+        integer :folder_id
         string :email
         boolean :is_inbox
         has_many :files
@@ -31,7 +32,8 @@ module Xeroizer
               'email' => self.email,
               'is_inbox' => self.is_inbox
           }
-          params['folder_id'] = self.folder_id unless self.folder_id.nil?
+
+          params['folder_id'] = self.folder_id if self.respond_to?(:folder_id)
           JSON.generate(params)
         end
 
